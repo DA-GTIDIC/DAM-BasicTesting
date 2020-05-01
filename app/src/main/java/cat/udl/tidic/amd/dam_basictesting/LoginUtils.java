@@ -47,7 +47,7 @@ public class LoginUtils {
         header = ("Authentication " + header).trim();
         return header;
     }
-    
+
     //TODO: isValidGmailAddress(String email)
     //TODO: Make this methods static
     //TODO: getUserName as the part before @, make the test.
