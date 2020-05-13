@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText username = findViewById(R.id.editTest_username);
         password = findViewById(R.id.editText_pass);
         errorMsg = findViewById(R.id.errorMessage);
-        loginUtils = new LoginUtils();
+        //loginUtils = new LoginUtils();
         Button login = findViewById(R.id.button_login);
 
         loginViewModel = new LoginViewModel(getApplication());
@@ -45,11 +45,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String pass = password.getText().toString();
                 String user = username.getText().toString();
-                if (!loginUtils.isValidPassword(pass)){
+                if (!LoginUtils.isValidPassword(pass)){
                     errorMsg.setText("Bad password");
                     errorMsg.setVisibility(View.VISIBLE);
                 }else{
-                    String encodeString = loginUtils.encodeLogin(user,pass);
+                    String encodeString = LoginUtils.encodeLogin(user,pass);
                     try {
                         loginViewModel.createToken(encodeString);
                     } catch (IOException e) {
