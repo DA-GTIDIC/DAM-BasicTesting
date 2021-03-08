@@ -18,7 +18,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
     private TextView errorMsg;
     private LoginUtils loginUtils;
-    private LoginViewModel loginViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +29,6 @@ public class LoginActivity extends AppCompatActivity {
         loginUtils = new LoginUtils();
         Button login = findViewById(R.id.button_login);
 
-        loginViewModel = new LoginViewModel(getApplication());
-
-        loginViewModel.getToken().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String state) {
-                errorMsg.setText(state);
-                errorMsg.setVisibility(View.VISIBLE);
-            }
-        });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,21 +39,11 @@ public class LoginActivity extends AppCompatActivity {
                     errorMsg.setText("Bad password");
                     errorMsg.setVisibility(View.VISIBLE);
                 }else{
-                    String encodeString = loginUtils.encodeLogin(user,pass);
-                    try {
-                        loginViewModel.createToken(encodeString);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                   // do sth
                 }
             }
         });
     }
-
-    public LoginViewModel getLoginViewModel(){
-        return this.loginViewModel;
-    }
-
 
 
 }

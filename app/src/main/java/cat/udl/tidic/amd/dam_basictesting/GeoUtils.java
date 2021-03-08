@@ -3,6 +3,7 @@ package cat.udl.tidic.amd.dam_basictesting;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,6 +30,14 @@ public class GeoUtils {
      */
     public String getCountry(double lat, double lon) throws IOException {
         List<Address> addresses = this.geocoder.getFromLocation(lat, lon, 1);
+        Log.d("Geo", addresses.toString());
         return (addresses.size() > 0) ? addresses.get(0).getCountryName() : null;
     }
+
+   /* public String getCountry(double lat, double lon)
+            throws IOException {
+        List<Address> addresses =
+                geocoder.getFromLocation(lat, lon, 1);
+        return addresses.get(0).getCountryName();
+    }*/
 }

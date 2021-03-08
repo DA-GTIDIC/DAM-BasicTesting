@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -30,10 +31,16 @@ public class GeoUtilsInstrumentedTest {
         geoUtils = new GeoUtils(context);
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void testShouldThrowIndexOutOfBoundsException() throws IOException {
-        geoUtils.getCountry(0,0);
+    @Test(expected = IllegalArgumentException.class)
+    public void testShouldThrowIllegalArgumentException() throws IOException {
+        geoUtils.getCountry(-100,-100);
     }
+
+    @Test
+    public void testShouldReturnNull() throws IOException {
+        assertNull(geoUtils.getCountry(0,0));
+    }
+
 
     @Test
     public void testSpainThatShouldPassWithIncorrectCoordinates() throws IOException {
