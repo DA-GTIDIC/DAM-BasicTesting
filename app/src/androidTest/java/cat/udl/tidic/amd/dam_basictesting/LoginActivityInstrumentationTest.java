@@ -1,7 +1,5 @@
 package cat.udl.tidic.amd.dam_basictesting;
 
-import android.util.Log;
-
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
@@ -10,7 +8,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
 import org.hamcrest.Matchers;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,24 +15,22 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
-import cat.udl.tidic.amd.dam_basictesting.Users.AccountDAO;
-import okhttp3.OkHttpClient;
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import static org.junit.Assert.assertNull;
 
 
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityInstrumentationTest {
 
     @Rule
-    public ActivityTestRule<LoginActivity> mActivityRule = new ActivityTestRule<>(LoginActivity.class);
+    public ActivityTestRule<LoginActivity> mActivityRule =
+            new ActivityTestRule<>(LoginActivity.class);
+
+    private LoginActivity mActivity;
+
 
     @Before
     public void setUp() throws IOException {
-        mActivityRule.getActivity();
-
+        mActivity = mActivityRule.getActivity();
     }
 
     @Test
@@ -62,6 +57,27 @@ public class LoginActivityInstrumentationTest {
 
         Espresso.onView(ViewMatchers.withId(R.id.errorMessage)).check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())));
     }
+
+    @Test
+    public void hiddenFragment(){
+        Espresso.onView(ViewMatchers.withId(R.id.frameLayout))
+                .check(ViewAssertions.matches(Matchers.not(ViewMatchers.hasChildCount(2))));
+        assertNull(mActivity.findViewById(R.id.firstButton));
+        assertNull(mActivity.findViewById(R.id.fragText));
+    }
+
+
+    @Test
+    public void testOpenFragment(){
+        Espresso.onView(ViewMatchers.withId(R.id.firstFragment))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.firstButton))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        Espresso.onView(ViewMatchers.withId(R.id.fragText))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+                .check(ViewAssertions.matches(ViewMatchers.withText("This is First Fragment")));
+    }
+
 
 
 }

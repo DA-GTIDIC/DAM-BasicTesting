@@ -7,9 +7,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-
-import java.io.IOException;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -18,6 +17,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
     private TextView errorMsg;
     private LoginUtils loginUtils;
+    private Button fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText username = findViewById(R.id.editTest_username);
         password = findViewById(R.id.editText_pass);
         errorMsg = findViewById(R.id.errorMessage);
+        fragment = findViewById(R.id.firstFragment);
         loginUtils = new LoginUtils();
         Button login = findViewById(R.id.button_login);
 
@@ -43,7 +44,20 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        fragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFragment(new SimpleFragment());
+            }
+
+        });
+
     }
 
+    private void loadFragment(Fragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.frameLayout, fragment).commit();
+    }
 
 }
